@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  api:
+    container_name: api
+    build: ./api
+    expose:
+      - ${APP_SERVER_PORT}
+    environment:
+      API_HOST: ${API_HOST}
+      APP_SERVER_PORT: ${APP_SERVER_PORT}
+    ports:
+      - ${APP_SERVER_PORT}:8080
+    command: /api
+
+  ui:
+    container_name: ui
+    build: ./ui
+    environment:
+      - REACT_APP_PORT=${REACT_APP_PORT}
+    expose:
+      - ${REACT_APP_PORT}
+    ports:
+      - ${REACT_APP_PORT}:3000
+    volumes:
+      - './ui:/app/ui'
+      - '/app/ui/node_modules'
+    links:
+      - api
