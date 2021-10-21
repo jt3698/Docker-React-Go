@@ -3,7 +3,9 @@ version: '3.7'
 services:
   api:
     container_name: api
-    build: ./api
+    build: 
+      context: ./api
+      dockerfile: dev.Dockerfile
     expose:
       - ${APP_SERVER_PORT}
     environment:
@@ -11,8 +13,9 @@ services:
       APP_SERVER_PORT: ${APP_SERVER_PORT}
     ports:
       - ${APP_SERVER_PORT}:8080
-    command: /api
-
+    volumes:
+      - './api:/app/api'
+    
   ui:
     container_name: ui
     build: ./ui
