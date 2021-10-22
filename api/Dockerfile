@@ -1,26 +1,9 @@
-FROM golang:1.16-alpine
+FROM golang:1.16 as base
 
-# Set destination for COPY
-RUN mkdir -p /app/api
+FROM base as dev
+
+RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+
 WORKDIR /app/api
 
-# Download Go modules
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
-
-# Copy the source code. Note the slash at the end, as explained in
-# https://docs.docker.com/engine/reference/builder/#copy
-COPY *.go ./
-
-# Build
-RUN go build -o /api
-
-# (Optional) environment variable that our dockerised
-# application can make use of. The value of environment
-# variables can also be set via parameters supplied
-# to the docker command on the command line.
-#ENV HTTP_PORT=8081
-
-# Run
-CMD [ "/api" ]
+CMD ["air"]
