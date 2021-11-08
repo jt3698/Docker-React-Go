@@ -11,8 +11,24 @@ import { icons } from './assets/icons'
 
 import { Provider } from 'react-redux'
 import store from './store'
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 React.icons = icons
+
+const firebaseConfig = {
+  apiKey: "AIzaSyACkBeqgvqYdIeZ8HVzxCk0-ASPq5L_fik",
+  authDomain: "docker-react-go.firebaseapp.com",
+  projectId: "docker-react-go",
+  storageBucket: "docker-react-go.appspot.com",
+  messagingSenderId: "401764100397",
+  appId: "1:401764100397:web:f88e60a895b80c8a588ba4",
+  measurementId: "G-VP6YH14F00"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 ReactDOM.render(
   <Provider store={store}>
