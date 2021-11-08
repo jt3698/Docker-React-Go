@@ -5,6 +5,13 @@ FROM base as dev
 RUN curl -sSfL https://raw.githubusercontent.com/CosmicWolfe/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
 
 WORKDIR /app/api
-RUN go get -u github.com/gin-gonic/gin
+
+COPY go.mod .
+COPY go.sum .
+
+# Get dependencies - will also be cached if we won't change mod/sum
+RUN go mod download
+# COPY the source code as the last step
+COPY . .
 
 CMD ["air"]
