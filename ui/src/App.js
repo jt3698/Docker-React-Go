@@ -1,27 +1,49 @@
+import logo from './logo.svg';
+import './App.css';
+import axios from 'axios';
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
-import './scss/style.scss';
 
-const loading = (
-  <div className="pt-3 text-center">
-    <div className="sk-spinner sk-spinner-pulse"></div>
-  </div>
-)
+const API_URL = 'http://localhost:8000/ping';
 
-// Containers
-const TheLayout = React.lazy(() => import('./containers/TheLayout'));
+class App extends Component  {
+  constructor(props) {
+    super(props);
 
-class App extends Component {
+    this.state = {
+      message: ""
+    };
+  }
+
+  componentDidMount() {
+    axios.get(API_URL).then(
+      response => {
+        console.log(response)
+        this.setState({
+          message: response.data.message
+        });
+      }
+    );
+  }
 
   render() {
     return (
-      <HashRouter>
-          <React.Suspense fallback={loading}>
-            <Switch>
-              <Route path="/" name="Home" render={props => <TheLayout {...props}/>} />
-            </Switch>
-          </React.Suspense>
-      </HashRouter>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+            {this.state.message}
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header>
+      </div>
     );
   }
 }
