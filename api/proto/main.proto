@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "github.com/jt3698/docker-react-go/api/proto";
+package proto;
+
+message EchoRequest {
+  string message = 1;
+}
+
+message EchoResponse {
+  string message = 1;
+}
+
+service MainService {
+  rpc Echo(EchoRequest) returns (EchoResponse);
+}
